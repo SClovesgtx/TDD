@@ -1,0 +1,17 @@
+{
+  "diffEditor.ignoreTrimWhitespace": false,
+  /* ======== english autocomplete ======== */
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true, // !!!
+      "strings": true // !!!
+    }
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true, // !!!
+    "strings": true // !!!
+  },
+  "cSpell.language": "en, en-US"
+}
