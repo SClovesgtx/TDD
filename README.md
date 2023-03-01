@@ -26,3 +26,52 @@ Personal annotation of the course [TDD – Desenvolvimento de Software Guiado np
 - **Design Patterns**
 
 - **GRASP**: General Responsibility Assignment Software Principals.
+
+
+# TDD: a approach to build high qualify code
+
+**TDD** is a acronym for *Test Driven Development*.
+
+TDD isn't a test technique. It is a software development technique where we make the tests before to design the code of our application.
+
+## TDD cicles
+
+```mermaid
+graph LR
+    A((1 - test)) --> B((2 - code))
+    B --> C((3- refactor))
+    C --> A
+```
+
+- **test**: write a failing test.
+- **code**: make the test pass.
+- **refactor**: improve your code.
+
+## 1 - Adding a test
+
+Add a test to:
+
+- Design the class interface
+- Define the expected behavior
+
+## 2 - Make the test pass
+
+Make the test pass by:
+
+- Implementing the class behavior
+- Doing the simplest/dummy solution
+
+## 3 - Refactor
+
+Improve your code applying principals of a high quality code like SOLID, Design Patterns, etc. Please see [Refactoring Guro](https://refactoring.guru/pt-br/).
+
+Basically:
+
+- Clean your code
+- Improve your class design
+
+## Baby Steps
+
+You must to add little behavior from one test to another.
+
+Baby steps do not mean slow development, but often switch between tests and application code.
