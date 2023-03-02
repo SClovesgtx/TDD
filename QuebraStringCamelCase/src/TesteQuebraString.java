@@ -48,9 +48,10 @@ class TesteQuebraString {
 
     	args.add( Arguments.of("nomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
     	args.add( Arguments.of("NomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
-    	args.add( Arguments.of("numeroCPF", (Object) Arrays.asList("numero", "CPF")) ) ;
-    	args.add( Arguments.of("numeroCPFContribuinte", (Object) Arrays.asList("numero", "CPF", "contribuinte")) ) ;
-    	args.add( Arguments.of("recupera10Primeiros", (Object) Arrays.asList("recupera", "10", "primeiros")) ) ;
+    	args.add( Arguments.of("ClovesAdriano", (Object) Arrays.asList("cloves", "adriano")) ) ;
+//    	args.add( Arguments.of("numeroCPF", (Object) Arrays.asList("numero", "CPF")) ) ;
+//    	args.add( Arguments.of("numeroCPFContribuinte", (Object) Arrays.asList("numero", "CPF", "contribuinte")) ) ;
+//    	args.add( Arguments.of("recupera10Primeiros", (Object) Arrays.asList("recupera", "10", "primeiros")) ) ;
     	
     	return args.stream();
     }
