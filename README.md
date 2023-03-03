@@ -78,18 +78,6 @@ Baby steps do not mean slow development, but often switch between tests and appl
 
 # TDD: BDUF versus NoDUF
 
-- 1: Using TDD with BDUF?
-
-- 2: avoid BDUF, I mean, do the NoDUF?
-
-Neither, we need to anticipate the enough of our project, so we need the Enough Deign Up Front (EDUF) that is also called Rough Design Up Front (RDUF). That is a kind o Emergent Design.
-
-The emphasis of RDUF is on WHAT TO DO and not on HOW TO DO.
-
-In most of the cases it is enough to do a *Class-responsibility-collaboration card* [(CRC)](https://en.wikipedia.org/wiki/Class-responsibility-collaboration_card) design.
-
-![](imgs/crc-card-example.png)
-
 ## BDUF 
 
 **Big Design Up Front** is a software development approach in which the program's design is to be completed and perfected before that program's implementation is started. 
@@ -103,3 +91,70 @@ In most of the cases it is enough to do a *Class-responsibility-collaboration ca
 ## NoDUF
 
 **No Deign Up Front** is the oppose of BDUF.
+
+
+## Which one to use with TDD?
+
+- 1: Using TDD with BDUF?
+
+- 2: avoid BDUF, I mean, do the NoDUF?
+
+Neither, we need to anticipate the enough of our project, so we need the Enough Deign Up Front (EDUF) that is also called Rough Design Up Front (RDUF). That is a kind o Emergent Design.
+
+The emphasis of RDUF is on WHAT TO DO and not on HOW TO DO.
+
+RDUF + TDD = Dynamic Design
+
+```mermaid
+graph LR
+    A((1 - test)) --> B((2 - code))
+    B --> C((3- refactor))
+    C --> A
+    D(Requirements) --> E(Test cases)
+    E --> A
+```
+
+In most of the cases it is enough to do a *Class-responsibility-collaboration card* [(CRC)](https://en.wikipedia.org/wiki/Class-responsibility-collaboration_card) design.
+
+![](imgs/crc-card-example.png)
+
+## The refactor phase  
+
+The refactor phase gives the dynamism to the code.
+
+We can do refactor on:
+
+- Variables and data
+- Methods
+- Classes
+- Interfaces
+- Subsystems
+- Architecture
+
+What to refactor? Follow the bad smell. 👃
+
+- Things we suspect that are not right
+- Things that if we do not correct right now, it will give us headache.
+- Part of the code is just ugly.
+
+The cicle of refactor:
+
+```mermaid
+graph LR
+    A(1 - Identify one bad smell) --> B(2 - choice the refactor technique)
+    B --> C(3 - Apply the refactor)
+    C --> A
+```
+
+# The smells of a code
+
+The most common bad smell: 🤢
+
+- Bad name of a function, class, variable, etc.
+- Duplicate code
+- Big method, or function
+- Big class (the god one)
+- if and switch commands
+- jealous of a characteristic: copy a method from another class, in other words, the class do not delegate work and want to take care about a things that could be delegate to a appropriate class.
+- Inappropriate intimacy: manipulate attributes of another class.
+- Comments
