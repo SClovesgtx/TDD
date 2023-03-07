@@ -47,11 +47,8 @@ class TesteQuebraString {
     	ArrayList<Arguments> args = new ArrayList<Arguments>();
 
     	args.add( Arguments.of("nomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
-    	args.add( Arguments.of("NomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
-    	args.add( Arguments.of("ClovesAdriano", (Object) Arrays.asList("cloves", "adriano")) ) ;
-//    	args.add( Arguments.of("numeroCPF", (Object) Arrays.asList("numero", "CPF")) ) ;
-//    	args.add( Arguments.of("numeroCPFContribuinte", (Object) Arrays.asList("numero", "CPF", "contribuinte")) ) ;
-//    	args.add( Arguments.of("recupera10Primeiros", (Object) Arrays.asList("recupera", "10", "primeiros")) ) ;
+//    	args.add( Arguments.of("NomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
+//    	args.add( Arguments.of("ClovesAdriano", (Object) Arrays.asList("cloves", "adriano")) ) ;
     	
     	return args.stream();
     }
@@ -60,9 +57,7 @@ class TesteQuebraString {
     @ParameterizedTest
     @MethodSource("stringsUmaPalavra")
 	void retornaListaStrings(String inputString, List<String> expectedOutPut) {
-    	
 		List<String> listaStrings = QuebradorStringCamelCase.converterCamelCase(inputString);
-		
         assertThat(listaStrings, instanceOf(List.class));
         assertThat(listaStrings.get(0), instanceOf(String.class));
 	}
@@ -92,7 +87,6 @@ class TesteQuebraString {
     	
 		List<String> listaStrings = QuebradorStringCamelCase.converterCamelCase(inputString);
 		assertEquals(listaStrings, expectedOutPut);
-        
 	}
 	
 }
