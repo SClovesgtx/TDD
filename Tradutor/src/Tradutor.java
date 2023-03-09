@@ -1,20 +1,20 @@
-import java.util.function.BooleanSupplier;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tradutor {
 
-	private String traducao;
+	private Map<String, String> traducoes = new HashMap<>();
 	
 	public boolean estaVazio() {
-		return traducao==null;
+		return traducoes.size()==0;
 	}
 
 	public void adicionaTraducao(String palavra, String traducao) {
-		this.traducao = traducao;
+		this.traducoes.put(palavra, traducao);
 	}
 
 	public Object traduzir(String palavra) {
-		// TODO Auto-generated method stub
-		return this.traducao;
+		return traducoes.get(palavra);
 	}
 
 }
