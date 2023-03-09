@@ -10,7 +10,9 @@ public class Tradutor {
 	}
 
 	public void adicionaTraducao(String palavra, String traducao) {
-		this.traducoes.put(palavra, traducao);
+		if(traducoes.containsKey(palavra))
+			traducao = traduzir(palavra) + ", " + traducao;
+		traducoes.put(palavra, traducao);
 	}
 
 	public Object traduzir(String palavra) {
