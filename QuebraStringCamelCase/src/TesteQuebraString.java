@@ -49,6 +49,7 @@ class TesteQuebraString {
     	args.add( Arguments.of("nomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
     	args.add( Arguments.of("NomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
     	args.add( Arguments.of("ClovesAdriano", (Object) Arrays.asList("cloves", "adriano")) ) ;
+    	args.add( Arguments.of("ClovesAdrianoPaivaSousa", (Object) Arrays.asList("cloves", "adriano", "paiva", "sousa")) ) ;
     	
     	return args.stream();
     }
