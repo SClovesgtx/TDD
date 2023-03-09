@@ -19,4 +19,14 @@ public class Tradutor {
 		return traducoes.get(palavra);
 	}
 
+	public String traduzirFraze(String frase) {
+		String[] palavras = frase.split(" ");
+		String fraseTraduzida = "";
+		for (String palavra : palavras) {
+			String traducao = (String) traduzir(palavra);
+			fraseTraduzida += " " + traducao;
+		}
+		return fraseTraduzida.trim();
+	}
+
 }
