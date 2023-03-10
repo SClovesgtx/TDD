@@ -1,17 +1,20 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class QuebradorStringCamelCase {
-
+	
+	private static List<String> abreviations = Arrays.asList("CPF", "CNPJ", "CEP");
+	
 	public static List<String> converterCamelCase(String string) {
 		List<String> listaStrings = new ArrayList<String>();
-		Integer firstNextUpperCaseIndex = nextUpperCaseLetter(string, 0);
-		Integer secondNextUpperCaseIndex = nextUpperCaseLetter(string, 1);
-		if (stringIsOneWord(string, firstNextUpperCaseIndex, secondNextUpperCaseIndex)) 
+		Integer firstUpperCaseIndex = nextUpperCaseLetter(string, 0);
+		Integer secondUpperCaseIndex = nextUpperCaseLetter(string, 1);
+		if (stringIsOneWord(string, firstUpperCaseIndex, secondUpperCaseIndex)) 
 			listaStrings.add(isAllUpperCase(string) ? string : string.toLowerCase());
-		else {
-			Integer index = firstNextUpperCaseIndex > 0 ? firstNextUpperCaseIndex : secondNextUpperCaseIndex;
+		else {		
+			Integer index = firstUpperCaseIndex > 0 ? firstUpperCaseIndex : secondUpperCaseIndex;
 			HashMap<String, String> splitedString = splitString(string, index);
 			listaStrings.add(splitedString.get("word"));
 			listaStrings.addAll(converterCamelCase(splitedString.get("remaining")));
@@ -19,16 +22,18 @@ public class QuebradorStringCamelCase {
 		return listaStrings;
 	}
 	
-	private static Boolean stringIsOneWord(String string, Integer firstNextUpperCaseIndex, Integer secondNextUpperCaseIndex) {
+	private static Boolean stringIsOneWord(String string, Integer firstUpperCaseIndex, Integer secondUpperCaseIndex) {
 		Boolean itIs = false;
 		if (isAllUpperCase(string)) itIs = true;
-		else if (firstNextUpperCaseIndex == -1) itIs = true;
-		else if (firstNextUpperCaseIndex == 0 & secondNextUpperCaseIndex == -1) itIs = true;
+		else if (firstUpperCaseIndex == -1) itIs = true;
+		else if (firstUpperCaseIndex == 0 & secondUpperCaseIndex == -1) itIs = true;
 		return itIs;
 	}
 	
 	private static HashMap<String, String> splitString(String string, Integer index){
 		HashMap<String, String> splitedString = new HashMap<String, String>();
+		for (String abreviation: abreviations)
+			if (string.indexOf(abreviation) == 0) index = abreviation.length();
 		String word = (String) string.subSequence(0, index);
 		String remaining = (String) string.subSequence(index, string.length());
 		if (!isAllUpperCase(word)) word = word.toLowerCase();
@@ -58,17 +63,5 @@ public class QuebradorStringCamelCase {
 		}
 		return nextUpperCaseIndex;
 	}
-	
-//	private static Integer nextLowerCaseLetter(String string, Integer index){
-//		String subString = (String) string.subSequence(index, string.length() - 1);
-//		int nextLowerCaseIndex = -1;
-//		for(int i = 0; i < subString.length(); i++) {
-//		    if(Character.isLowerCase(subString.charAt(i))) {
-//		    	nextLowerCaseIndex = i;
-//		        break;
-//		    }
-//		}
-//		return nextLowerCaseIndex;
-//	}
 
 }

@@ -13,6 +13,8 @@ import org.junit.runners.Parameterized.Parameters;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(Parameterized.class)
 class TesteQuebraString {
@@ -50,6 +52,21 @@ class TesteQuebraString {
     	args.add( Arguments.of("NomeComposto", (Object) Arrays.asList("nome", "composto")) ) ;
     	args.add( Arguments.of("ClovesAdriano", (Object) Arrays.asList("cloves", "adriano")) ) ;
     	args.add( Arguments.of("ClovesAdrianoPaivaSousa", (Object) Arrays.asList("cloves", "adriano", "paiva", "sousa")) ) ;
+    	args.add( Arguments.of("numeroCPF", (Object) Arrays.asList("numero", "CPF")) ) ;
+    	args.add( Arguments.of("numeroCPFContribuinte", (Object) Arrays.asList("numero", "CPF", "contribuinte")) ) ;
+    	args.add( Arguments.of("CNPJUsuario", (Object) Arrays.asList("CNPJ", "usuario")) ) ;
+    	args.add( Arguments.of("CidadeCEPBairro", (Object) Arrays.asList("cidade", "CEP", "bairro")) ) ;
+    	
+    	return args.stream();
+    }
+    
+    @Parameters
+    private static Stream<Arguments> stringsComecamComNumeros() {
+    	
+    	ArrayList<Arguments> args = new ArrayList<Arguments>();
+
+    	args.add(Arguments.of("10Primeiros", "não deve começar com números"));
+    	args.add(Arguments.of("1Primeiros", "não deve começar com números"));
     	
     	return args.stream();
     }
@@ -88,6 +105,13 @@ class TesteQuebraString {
     	
 		List<String> listaStrings = QuebradorStringCamelCase.converterCamelCase(inputString);
 		assertEquals(listaStrings, expectedOutPut);
+	}
+    
+    @ParameterizedTest
+    @MethodSource("stringsComecamComNumeros")
+    public void stringNaoPodeComecarComNumeros(String inputString, String errorMessage) {
+		Throwable exception = assertThrows(PilhaVaziaException.class, () -> QuebradorStringCamelCase.converterCamelCase(inputString));
+		assertEquals(errorMessage, exception.getMessage());
 	}
 	
 }
