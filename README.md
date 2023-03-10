@@ -76,6 +76,16 @@ You must to add little behavior from one test to another.
 
 Baby steps do not mean slow development, but often switch between tests and application code.
 
+## TDD Principles
+
+- **Fast feed back is good**: don't do a lot of code without test. Make a little of code, and test to get a fast feed back.
+
+- **Easiest solution is the best**
+- **Software design must be flexible and adaptive**
+- **Tests bring security**
+- **Tests are documentary**: tests are examples of using a class and is better then a doc description of the class.
+- **All code is guilty until proven innocent**
+- **It is more funny to test before**
 # TDD: BDUF versus NoDUF
 
 ## BDUF 
