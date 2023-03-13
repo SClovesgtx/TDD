@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +14,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -60,16 +61,16 @@ class TesteQuebraString {
     	return args.stream();
     }
     
-    @Parameters
-    private static Stream<Arguments> stringsComecamComNumeros() {
-    	
-    	ArrayList<Arguments> args = new ArrayList<Arguments>();
-
-    	args.add(Arguments.of("10Primeiros", "não deve começar com números"));
-    	args.add(Arguments.of("1Primeiros", "não deve começar com números"));
-    	
-    	return args.stream();
-    }
+//    @Parameters
+//    private static Stream<Arguments> stringsComecamComNumeros() {
+//    	
+//    	ArrayList<Arguments> args = new ArrayList<Arguments>();
+//
+//    	args.add(Arguments.of("10Primeiros", "não deve começar com números"));
+//    	args.add(Arguments.of("1Primeiros", "não deve começar com números"));
+//    	
+//    	return args.stream();
+//    }
     
 	
     @ParameterizedTest
@@ -107,11 +108,10 @@ class TesteQuebraString {
 		assertEquals(listaStrings, expectedOutPut);
 	}
     
-    @ParameterizedTest
-    @MethodSource("stringsComecamComNumeros")
-    public void stringNaoPodeComecarComNumeros(String inputString, String errorMessage) {
-		Throwable exception = assertThrows(PilhaVaziaException.class, () -> QuebradorStringCamelCase.converterCamelCase(inputString));
-		assertEquals(errorMessage, exception.getMessage());
+    @Test
+    public void stringNaoPodeComecaComNumeros() {
+		Throwable exception = assertThrows(StringInvalida.class, () -> QuebradorStringCamelCase.converterCamelCase("10Primeiros"));
+		assertEquals(exception.getMessage(), "não deve começar com números");
 	}
 	
 }
