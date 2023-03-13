@@ -39,7 +39,7 @@ class TesteQuebraString {
 
     	args.add( Arguments.of("CPF", (Object) Arrays.asList("CPF")) ) ;
     	args.add( Arguments.of("CNPJ", (Object) Arrays.asList("CNPJ")) ) ;
-    	args.add( Arguments.of("MAIÚSCULO", (Object) Arrays.asList("MAIÚSCULO")) ) ;
+    	args.add( Arguments.of("CEP", (Object) Arrays.asList("CEP")) ) ;
     	
     	return args.stream();
     }
@@ -60,17 +60,6 @@ class TesteQuebraString {
     	
     	return args.stream();
     }
-    
-//    @Parameters
-//    private static Stream<Arguments> stringsComecamComNumeros() {
-//    	
-//    	ArrayList<Arguments> args = new ArrayList<Arguments>();
-//
-//    	args.add(Arguments.of("10Primeiros", "não deve começar com números"));
-//    	args.add(Arguments.of("1Primeiros", "não deve começar com números"));
-//    	
-//    	return args.stream();
-//    }
     
 	
     @ParameterizedTest
@@ -113,5 +102,13 @@ class TesteQuebraString {
 		Throwable exception = assertThrows(StringInvalida.class, () -> QuebradorStringCamelCase.converterCamelCase("10Primeiros"));
 		assertEquals(exception.getMessage(), "não deve começar com números");
 	}
+    
+    @Test
+    public void stringNaoPodeConterCaracteresEspeciais() {
+		Throwable exception = assertThrows(StringInvalida.class, () -> QuebradorStringCamelCase.converterCamelCase("nome#Composto"));
+		assertEquals(exception.getMessage(), "caracteres especiais não são permitidos, somente letras e números");
+	}
+    
+    
 	
 }

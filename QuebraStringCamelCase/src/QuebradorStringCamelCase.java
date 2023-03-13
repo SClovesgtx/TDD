@@ -11,8 +11,8 @@ public class QuebradorStringCamelCase {
 		List<String> listaStrings = new ArrayList<String>();
 		Integer firstUpperCaseIndex = nextUpperCaseLetter(string, 0);
 		Integer secondUpperCaseIndex = nextUpperCaseLetter(string, 1);
-		if (Character.isDigit(string.charAt(0))) throw new StringInvalida("não deve começar com números");
-		else if (stringIsOneWord(string, firstUpperCaseIndex, secondUpperCaseIndex)) 
+		checkIsValidString(string);
+		if (stringIsOneWord(string, firstUpperCaseIndex, secondUpperCaseIndex)) 
 			listaStrings.add(isAllUpperCase(string) ? string : string.toLowerCase());
 		else {		
 			Integer index = firstUpperCaseIndex > 0 ? firstUpperCaseIndex : secondUpperCaseIndex;
@@ -23,6 +23,17 @@ public class QuebradorStringCamelCase {
 		return listaStrings;
 	}
 	
+	static void checkIsValidString(String string) {
+		if (Character.isDigit(string.charAt(0))) throw new StringInvalida("não deve começar com números");
+		else if (containSpecialCharacters(string)) throw new StringInvalida("caracteres especiais não são permitidos, somente letras e números");
+	}
+	
+	private static boolean containSpecialCharacters(String string) {
+		boolean itContains = !string.matches("[a-zA-Z0-9]*");
+		return itContains;
+	
+	}
+
 	private static Boolean stringIsOneWord(String string, Integer firstUpperCaseIndex, Integer secondUpperCaseIndex) {
 		Boolean itIs = false;
 		if (isAllUpperCase(string)) itIs = true;
