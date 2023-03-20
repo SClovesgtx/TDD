@@ -168,3 +168,13 @@ The most common bad smell: 🤢
 - jealous of a characteristic: copy a method from another class, in other words, the class do not delegate work and want to take care about a things that could be delegate to a appropriate class.
 - Inappropriate intimacy: manipulate attributes of another class.
 - Comments
+
+# Test cases by responsibility
+
+Having the enough requirement of your projetc, you need to think about tests that expect just the valid inputs, in other words, the "happy way", or the "positive test".
+
+After, you need to think about invalid inputs, the "unhappy way", or the "negative test".
+
+## Dojo
+
+Dojo, (pronounced Dojo) is a Japanese word and means "training place". Therefore, the Coding Dojo is nothing more than a "code training place", or "programming training place".
