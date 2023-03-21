@@ -175,6 +175,35 @@ Having the enough requirement of your projetc, you need to think about tests tha
 
 After, you need to think about invalid inputs, the "unhappy way", or the "negative test".
 
-## Dojo
+## Coding Dojo
 
 Dojo, (pronounced Dojo) is a Japanese word and means "training place". Therefore, the Coding Dojo is nothing more than a "code training place", or "programming training place".
+
+# Testing classes that has dependency of another classes
+
+- In this case we call it an integration test.
+
+- We can use TDD to define the interface between two classes. 
+
+- In the cases where the object has a infrastructure dependency we can use mock objects.
+
+## Creating a mock object
+
+We need to create a mock object that our dependent class accept it.
+
+In some cases is not possible to create a mock class. One example is when the dependency class is instantiate inside the dependent class: 
+
+![](imgs/class_dependency.png)
+
+It is a good practice to receive the dependency class in the constructor (when a dependency is obligatory), or setter (when the dependency can be use in some cases or need to change).
+
+That is called dependency injection. This method helps to let your software design more uncoupled.
+
+To test the integration between two classes, is important to has a abstraction/interface.
+So, our mock object will implement that interface.
+
+Our mock object must:
+
+- Mimic the interface of the dependency
+- Simulate the behavior of our test case.
+- Check all expect calls of the class.
