@@ -207,3 +207,6 @@ Our mock object must:
 - Mimic the interface of the dependency
 - Simulate the behavior of our test case.
 - Check all expect calls of the class.
+
+There is some frameworks that helps to create mock objects.
+
