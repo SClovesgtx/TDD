@@ -210,3 +210,14 @@ Our mock object must:
 
 There is some frameworks that helps to create mock objects.
 
+## When we need to mock a class?
+
+
+- Mock when dependency deals with external resources that is difficult to test, or has a complex logic.
+
+- We need to mock a native class, or a framework class? No, this class could has a lot of details, you can just encapsulate the class to behavior as expect. In this way, you uncouple your class from this specific API class.
+
+- Must I mock a dependency that do not must be expose to clients classes? No.
+
+
+
