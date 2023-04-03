@@ -219,5 +219,11 @@ There is some frameworks that helps to create mock objects.
 
 - Must I mock a dependency that do not must be expose to clients classes? No.
 
+# Code smells and Refactor technics
+
+- [Extract method](https://refactoring.guru/pt-br/extract-method)
+- [Feature Envy](https://refactoring.guru/pt-br/smells/feature-envy)
+
+
 
 
