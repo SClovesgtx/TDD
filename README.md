@@ -223,6 +223,16 @@ There is some frameworks that helps to create mock objects.
 
 - [Extract method](https://refactoring.guru/pt-br/extract-method)
 - [Feature Envy](https://refactoring.guru/pt-br/smells/feature-envy)
+- [Decompose Condicional](https://refactoring.guru/pt-br/decompose-conditional)
+
+## SOLID principals
+
+
+- **S**: Single Responsibility Principale (SRP). The class must have one, and just one, reason to change.
+- **O**: Open/Closed Principle (OCP). The class can be extended without changing the existing behavior.
+- **L**: Liskov Substitution Principle (LSP). Objects of a super class could be substitute for his subclass without problems.
+- **I**: Interface Segregation Principle (ISP). Clients do not have to depend of a interface that they will not use.
+- **D**: Dependency Inversion Principale (DIP). Abstractions do not depend of details.
 
 
 
