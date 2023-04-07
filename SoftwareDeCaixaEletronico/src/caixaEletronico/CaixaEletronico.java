@@ -2,19 +2,26 @@ package caixaEletronico;
 
 public class CaixaEletronico {
 	
-	private static Hardware hardware;
-	private String numeroDaContaDoCartao;
+	private Hardware hardware;
+	private String numeroDaConta;
+	private ServicoRemoto servicoRemoto;
 	
-	public CaixaEletronico(Hardware hard) {
+	public CaixaEletronico(Hardware hard, ServicoRemoto servico) {
 		hardware = hard;
+		servicoRemoto = servico;
 	}
 	
 	public String logar() {
 		try {
-			numeroDaContaDoCartao = hardware.pegarNumeroDaContaCartao();
+			numeroDaConta = hardware.pegarNumeroDaContaCartao();
 			return "Usuário Autenticado";
 		} catch (ProblemaNoHardware e) {
 			return "Não foi possível autenticar o usuário";
 		}
+	}
+
+	public String saldo() {
+		ContaCorrente conta = servicoRemoto.recuperarConta(numeroDaConta);
+		return String.format("O saldo é R$%.2f", conta.getSaldo());
 	}
 }

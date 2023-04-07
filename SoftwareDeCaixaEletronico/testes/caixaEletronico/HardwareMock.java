@@ -2,7 +2,7 @@ package caixaEletronico;
 
 public class HardwareMock implements Hardware {
 	
-	private static String numeroContaCartao = "";
+	private String numeroContaCartao = "";
 
 	@Override
 	public String pegarNumeroDaContaCartao() throws ProblemaNoHardware {
