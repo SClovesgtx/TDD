@@ -21,4 +21,8 @@ public class ContaCorrente {
 	public void setSaldo(float saldo) {
 		this.saldo = saldo;
 	}
+
+	public void persistirConta(float valorRestanteNaConta) {
+		setSaldo(valorRestanteNaConta);
+	}
 }

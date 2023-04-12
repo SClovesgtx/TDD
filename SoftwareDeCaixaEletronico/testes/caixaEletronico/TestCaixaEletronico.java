@@ -59,5 +59,93 @@ public class TestCaixaEletronico {
 		assertEquals("O saldo é R$500,00", caixa2.saldo()); 
 	}
 	
+	@Test
+	public void sacarDinheiroComSucesso() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		assertEquals("Retire seu dinheiro", caixa1.sacar(50)); 
+	}
+	
+	@Test
+	public void consuldaSaldoDepoisDeSacar() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		caixa1.sacar(50); 
+		
+		assertEquals("O saldo é R$50,50", caixa1.saldo()); 
+	}
+	
+	@Test
+	public void sacarDinheiroSaldoInsuficiente() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		assertEquals("Saldo insuficiente", caixa1.sacar(150));
+	}
+	
+	@Test
+	public void persistirContaApenasEmCasoDeSaqueComSucesso() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		assertEquals("Saldo insuficiente", caixa1.sacar(150));
+		assertEquals("O saldo é R$100,50", caixa1.saldo()); 
+	}
+	
+	@Test
+	public void depositarDinheiroComSucesso() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		assertEquals("Depósito recebido com sucesso", caixa1.depositar(50)); 
+	}
+	
+	@Test
+	public void consuldaSaldoDepoisDeDepositar() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		hardWareMock1.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		caixa1.depositar(50);
+		
+		assertEquals("O saldo é R$150,50", caixa1.saldo()); 
+	}
+	
+	@Test
+	public void depositarDinheiroFalhou() {
+		
+		HardwareMock hardWareMock1 = new HardwareMock();
+		
+		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
+		caixa1.logar();
+		
+		assertEquals("Não foi possível fazer seu depósito. Aqui está seu envelope de volta.", caixa1.depositar(50)); 
+	}
+	
 	
 }
