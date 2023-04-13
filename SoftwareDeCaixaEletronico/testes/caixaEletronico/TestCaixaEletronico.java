@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import caixaEletronico.CaixaEletronico;
-
 public class TestCaixaEletronico {
 	
 	ArrayList<ContaCorrente> contasCorrentes = new ArrayList<ContaCorrente>();
@@ -26,7 +24,7 @@ public class TestCaixaEletronico {
 	
 	@Test
 	public void loginComSucesso() {
-		HardwareMock hardWareMock = new HardwareMock();
+		Hardware hardWareMock = new HardwareMockSucesso();
 		hardWareMock.setNumeroContaCartao("12345678");
 		
 		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
@@ -35,7 +33,7 @@ public class TestCaixaEletronico {
 	
 	@Test
 	public void loginFalha() {
-		HardwareMock hardWareMock = new HardwareMock();
+		Hardware hardWareMock = new HardwareMockQueFalha();
 		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
 		assertEquals("Não foi possível autenticar o usuário", caixa.logar()); 
 	}
@@ -43,10 +41,10 @@ public class TestCaixaEletronico {
 	@Test
 	public void consultaSaldo() {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
+		Hardware hardWareMock1 = new HardwareMockSucesso();
 		hardWareMock1.setNumeroContaCartao("12345678");
 		
-		HardwareMock hardWareMock2 = new HardwareMock();
+		Hardware hardWareMock2 = new HardwareMockSucesso();
 		hardWareMock2.setNumeroContaCartao("22345678");
 		
 		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
@@ -60,91 +58,117 @@ public class TestCaixaEletronico {
 	}
 	
 	@Test
-	public void sacarDinheiroComSucesso() {
+	public void sacarDinheiroComSucesso() throws ProblemaNoHardware {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		Hardware hardWareMock = new HardwareMockSucesso();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		assertEquals("Retire seu dinheiro", caixa1.sacar(50)); 
+		assertEquals("Retire seu dinheiro", caixa.sacar(50)); 
 	}
 	
 	@Test
-	public void consuldaSaldoDepoisDeSacar() {
+	public void consuldaSaldoDepoisDeSacar() throws ProblemaNoHardware {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		HardwareMockSucesso hardWareMock = new HardwareMockSucesso();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		caixa1.sacar(50); 
+		caixa.sacar(50); 
 		
-		assertEquals("O saldo é R$50,50", caixa1.saldo()); 
+		assertEquals("O saldo é R$50,50", caixa.saldo()); 
 	}
 	
 	@Test
-	public void sacarDinheiroSaldoInsuficiente() {
+	public void sacarDinheiroSaldoInsuficiente() throws ProblemaNoHardware {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		HardwareMockSucesso hardWareMock = new HardwareMockSucesso();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		assertEquals("Saldo insuficiente", caixa1.sacar(150));
+		assertEquals("Saldo insuficiente", caixa.sacar(150));
 	}
 	
 	@Test
-	public void persistirContaApenasEmCasoDeSaqueComSucesso() {
+	public void sacarDinheiroFalha() throws ProblemaNoHardware {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		Hardware hardWareMock = new HardwareMockQueFalha();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		assertEquals("Saldo insuficiente", caixa1.sacar(150));
-		assertEquals("O saldo é R$100,50", caixa1.saldo()); 
+		assertEquals("Não foi possível realizar a retirada do dinehiro neste caixa. Pedimos desculpas pelo transtorno.", caixa.sacar(10));
+	}
+	
+	@Test
+	public void persistirContaApenasEmCasoDeSaqueComSucesso() throws ProblemaNoHardware {
+		
+		Hardware hardWareMock = new HardwareMockQueFalha();
+		hardWareMock.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
+		
+		caixa.sacar(50);
+		assertEquals("O saldo é R$100,50", caixa.saldo()); 
+	}
+	
+	@Test
+	public void persistirContaApenasEmCasoDeDepositoComSucesso() throws ProblemaNoHardware {
+		
+		Hardware hardWareMock = new HardwareMockQueFalha();
+		hardWareMock.setNumeroContaCartao("12345678");
+		
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
+		
+		caixa.depositar(150);
+		
+		assertEquals("O saldo é R$100,50", caixa.saldo()); 
 	}
 	
 	@Test
 	public void depositarDinheiroComSucesso() {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		Hardware hardWareMock = new HardwareMockSucesso();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		assertEquals("Depósito recebido com sucesso", caixa1.depositar(50)); 
+		assertEquals("Depósito recebido com sucesso", caixa.depositar(50)); 
 	}
 	
 	@Test
 	public void consuldaSaldoDepoisDeDepositar() {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
-		hardWareMock1.setNumeroContaCartao("12345678");
+		Hardware hardWareMock = new HardwareMockSucesso();
+		hardWareMock.setNumeroContaCartao("12345678");
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		caixa1.depositar(50);
+		caixa.depositar(50);
 		
-		assertEquals("O saldo é R$150,50", caixa1.saldo()); 
+		assertEquals("O saldo é R$150,50", caixa.saldo()); 
 	}
 	
 	@Test
 	public void depositarDinheiroFalhou() {
 		
-		HardwareMock hardWareMock1 = new HardwareMock();
+		Hardware hardWareMock = new HardwareMockQueFalha();
 		
-		CaixaEletronico caixa1 = new CaixaEletronico(hardWareMock1, servicoRemotoMock);
-		caixa1.logar();
+		CaixaEletronico caixa = new CaixaEletronico(hardWareMock, servicoRemotoMock);
+		caixa.logar();
 		
-		assertEquals("Não foi possível fazer seu depósito. Aqui está seu envelope de volta.", caixa1.depositar(50)); 
+		assertEquals("Não foi possível fazer seu depósito. Retire seu envelope!", caixa.depositar(50)); 
 	}
 	
 	

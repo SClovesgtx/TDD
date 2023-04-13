@@ -25,23 +25,29 @@ public class CaixaEletronico {
 		return String.format("O saldo é R$%.2f", conta.getSaldo());
 	}
 
-	public String sacar(int valorASerSacado) {
-		ContaCorrente conta = servicoRemoto.recuperarConta(numeroDaConta);
-		float valorRestanteNaConta = conta.getSaldo() - valorASerSacado;
-		if (valorRestanteNaConta < 0)
-			return "Saldo insuficiente";
-		conta.persistirConta(valorRestanteNaConta);
-		return "Retire seu dinheiro";
+	public String sacar(int valorASerSacado) throws ProblemaNoHardware {
+		try {
+			ContaCorrente conta = servicoRemoto.recuperarConta(numeroDaConta);
+			float valorRestanteNaConta = conta.getSaldo() - valorASerSacado;
+			if (valorRestanteNaConta < 0)
+				return "Saldo insuficiente";
+			hardware.entregarDinheiro();
+			conta.persistirConta(valorRestanteNaConta);
+			return "Retire seu dinheiro";
+		} catch (ProblemaNoHardware e) {
+			return "Não foi possível realizar a retirada do dinehiro neste caixa. Pedimos desculpas pelo transtorno.";
+		}
 	}
 
 	public String depositar(float valorASerDepositado) {
 		try {
 			ContaCorrente conta = servicoRemoto.recuperarConta(numeroDaConta);
 			float valorAtualNaConta = conta.getSaldo() + valorASerDepositado;
+			hardware.lerEnvelope();
 			conta.persistirConta(valorAtualNaConta);
 			return "Depósito recebido com sucesso";
 		} catch (Exception e) {
-			return "Não foi possível fazer seu depósito. Aqui está seu envelope de volta.";
+			return "Não foi possível fazer seu depósito. Retire seu envelope!";
 		}
 	}
 }

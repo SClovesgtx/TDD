@@ -1,7 +1,7 @@
 package caixaEletronico;
 
-public class HardwareMock implements Hardware {
-	
+public class HardwareMockQueFalha implements Hardware {
+
 	private String numeroContaCartao = "";
 
 	@Override
@@ -9,6 +9,16 @@ public class HardwareMock implements Hardware {
 		if (numeroContaCartao.length() == 0)
 			throw new ProblemaNoHardware();
 		return numeroContaCartao;
+	}
+
+	@Override
+	public void entregarDinheiro() throws ProblemaNoHardware {
+		throw new ProblemaNoHardware();
+	}
+
+	@Override
+	public void lerEnvelope() throws ProblemaNoHardware {
+		throw new ProblemaNoHardware();
 	}
 
 	public void setNumeroContaCartao(String string) {
