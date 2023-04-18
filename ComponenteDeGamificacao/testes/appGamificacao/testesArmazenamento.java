@@ -5,30 +5,38 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class testesArmazenamento {
+	
+	private Armazenamento armazenador;
+
+	@Before
+	public void inicializaArmazenador() {
+		armazenador = new Armazenamento();
+		armazenador.armazenarPonto("estrela", 5, "Guerra");
+		armazenador.armazenarPonto("moeda", 15, "Guerra");
+		armazenador.armazenarPonto("estrela", 10, "Cloves");
+		armazenador.armazenarPonto("moeda", 40, "Dani");
+		armazenador.armazenarPonto("curtida", 7, "Alex");
+	}
 
 	@Test
 	public void metodoRecuperarPontosRetornaInteiroPositivo() {
-		Armazenamento armazenador = new Armazenamento();
-		armazenador.armazenarPonto("estrela", 5, "guerra");
-		armazenador.armazenarPonto("estrela", 15, "guerra");
-		assertEquals((Integer)20, armazenador.recuperarPontos("estrela", "guerra"));
+		assertEquals((Integer)5, armazenador.recuperarPontos("estrela", "Guerra"));
 		assertTrue((Integer)0 <= armazenador.recuperarPontos("estrela", "guerra"));
 	}
 	
 	@Test
 	public void metodoUsuariosComPontuacaoRetornaListaUsuarios() {
-		Armazenamento armazenador = new Armazenamento();
-		List<String> usuariosComPontuacao = Arrays.asList("Cloves", "Guerra", "Dani", "Alex");
+		List<String> usuariosComPontuacao = Arrays.asList("Guerra", "Cloves", "Dani", "Alex");
 		assertEquals(usuariosComPontuacao, armazenador.usuariosComPontuacao());
 	}
 	
 	@Test
 	public void metodoTiposPontuacoesRegistradasRetornaListaDeTiposDePontuacaoRegistradas() {
-		Armazenamento armazenador = new Armazenamento();
-		List<String> pontuacoesRegistradas = Arrays.asList("moeda", "estrela");
+		List<String> pontuacoesRegistradas = Arrays.asList("estrela", "moeda", "curtida");
 		assertEquals(pontuacoesRegistradas, armazenador.tiposPontuacoesRegistradas());
 	}
 
