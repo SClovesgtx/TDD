@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Armazenamento {
 	private static List<RegistroDePontuacao> registros = new ArrayList<RegistroDePontuacao>();
 
-	public Integer recuperarPontos(String nomeUsuario, String tipoDePontuacao) {
+	public Integer recuperarPontos(String tipoDePontuacao, String nomeUsuario) {
 		Integer pontuacaoTotal = 0;
 		for (RegistroDePontuacao registroPontuacao: registros) {
 			if (registroPontuacao.getNomeUsuario() == nomeUsuario & registroPontuacao.getTipoDePontuacao() == tipoDePontuacao)
