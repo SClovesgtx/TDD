@@ -48,4 +48,12 @@ public class Armazenamento {
 		registroPontuacao.setNomeUsuario(nomeUsuario);
 		return registroPontuacao;
 	}
+
+	public static List<RegistroDePontuacao> getRegistros() {
+		return registros;
+	}
+
+	public static void setRegistros(List<RegistroDePontuacao> registros) {
+		Armazenamento.registros = registros;
+	}
 }
