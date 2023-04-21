@@ -4,8 +4,13 @@ public class RegistroDePontuacao {
 	
 	private String nomeUsuario;
 	private String tipoDePontuacao;
-	private Integer pontuacao;
+	private Long pontuacao;
 	
+	public RegistroDePontuacao(String tipoDePontuacao, Long pontuacao, String nomeUsuario) {
+		this.tipoDePontuacao = tipoDePontuacao;
+		this.pontuacao = pontuacao;
+		this.nomeUsuario = nomeUsuario;
+	}
 	public String getNomeUsuario() {
 		return nomeUsuario;
 	}
@@ -18,10 +23,10 @@ public class RegistroDePontuacao {
 	public void setTipoDePontuacao(String tipoDePontuacao) {
 		this.tipoDePontuacao = tipoDePontuacao;
 	}
-	public Integer getPontuacao() {
+	public Long getPontuacao() {
 		return pontuacao;
 	}
-	public void setPontuacao(Integer pontuacao) {
+	public void setPontuacao(Long pontuacao) {
 		this.pontuacao = pontuacao;
 	}
 }

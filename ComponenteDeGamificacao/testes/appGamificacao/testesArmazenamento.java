@@ -3,12 +3,8 @@ package appGamificacao;
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
  
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
@@ -24,18 +20,29 @@ public class testesArmazenamento {
 
 	@Before
 	public void inicializaArmazenador() {
+		
+		RegistroDePontuacao r1 = new RegistroDePontuacao("estrela", (long) 5, "Guerra");
+		RegistroDePontuacao r2 = new RegistroDePontuacao("moeda", (long) 15, "Guerra");
+		RegistroDePontuacao r3 = new RegistroDePontuacao("estrela", (long) 10, "Cloves");
+		RegistroDePontuacao r4 = new RegistroDePontuacao("moeda", (long) 40, "Dani");
+		RegistroDePontuacao r5 = new RegistroDePontuacao("curtida", (long) 7, "Alex");
+		
+		List<RegistroDePontuacao> registros = new ArrayList<RegistroDePontuacao>();
+		registros.add(r1);
+		registros.add(r2);
+		registros.add(r3);
+		registros.add(r4);
+		registros.add(r5);
+		
 		armazenador = new Armazenamento();
-		armazenador.armazenarPonto("estrela", 5, "Guerra");
-		armazenador.armazenarPonto("moeda", 15, "Guerra");
-		armazenador.armazenarPonto("estrela", 10, "Cloves");
-		armazenador.armazenarPonto("moeda", 40, "Dani");
-		armazenador.armazenarPonto("curtida", 7, "Alex");
+		Armazenamento.setRegistros(registros);
 	}
 
+	@SuppressWarnings("removal")
 	@Test
-	public void metodoRecuperarPontosRetornaInteiroPositivo() {
-		assertEquals((Integer)5, armazenador.recuperarPontos("estrela", "Guerra"));
-		assertTrue((Integer)0 <= armazenador.recuperarPontos("estrela", "Guerra"));
+	public void metodoRecuperarPontosRetornaLongPositivo() {
+		assertEquals(new Long(5), armazenador.recuperarPontos("estrela", "Guerra"));
+		assertTrue(new Long(0) <= armazenador.recuperarPontos("estrela", "Guerra"));
 	}
 	
 	@Test
@@ -52,27 +59,18 @@ public class testesArmazenamento {
 	
 	@Test
 	public void conteudoEstaSendoRegistradoEmArquivoJSON() throws FileNotFoundException, IOException, ParseException {
-		List<RegistroDePontuacao> pontuacoesRegistradas = this.lerArquivoJson();
-		assertEquals(pontuacoesRegistradas, armazenador.getRegistros());
-	}
-	
-	@SuppressWarnings("unused")
-	private List<RegistroDePontuacao> lerArquivoJson() throws FileNotFoundException, IOException, ParseException{
-		JSONParser parser = new JSONParser();
-		ArrayList<RegistroDePontuacao> json = (ArrayList) parser.parse(new FileReader("/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json"));
-	    List<RegistroDePontuacao> result = new ArrayList<RegistroDePontuacao>();
-	    for(int i = 0 ; i < json.size() ; i++){
-//	    	JSONObject jsonObject = (JSONObject) json.get(i);
-//            String nomeUsuario = (String) jsonObject.get("nomeUsuario");
-//            String tipoDePontuacao = (String) jsonObject.get("tipoDePontuacao");
-//            Integer pontuacao = (Integer) jsonObject.get("pontuacao");
-//            RegistroDePontuacao registroPontuacao = new RegistroDePontuacao();
-//    		registroPontuacao.setTipoDePontuacao(tipoDePontuacao);
-//    		registroPontuacao.setPontuacao(pontuacao);
-//    		registroPontuacao.setNomeUsuario(nomeUsuario);
-	        result.add(json.get(i));
-	    }
-		return result;
+		String caminhoParaOArquivoJson = "/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json";
+		GerenciadorArquivosJson gerenciadorDeArquivosJson = new GerenciadorArquivosJson(caminhoParaOArquivoJson);
+		List<RegistroDePontuacao> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
+		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = Armazenamento.getRegistros();
+		assertEquals(pontuacoesRegistradasNaClasse.size(), pontuacoesRegistradasNoArquivo.size());
+		for(Integer i=0; i < pontuacoesRegistradasNaClasse.size(); i++) {
+			RegistroDePontuacao r1 = pontuacoesRegistradasNaClasse.get(i);
+			RegistroDePontuacao r2 = pontuacoesRegistradasNoArquivo.get(i);
+			assertEquals(r1.getNomeUsuario(), r2.getNomeUsuario());
+			assertEquals(r1.getPontuacao(), r2.getPontuacao());
+			assertEquals(r1.getTipoDePontuacao(), r2.getTipoDePontuacao());
+		}
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Armazenamento {
 	private static List<RegistroDePontuacao> registros = new ArrayList<RegistroDePontuacao>();
 
-	public Integer recuperarPontos(String tipoDePontuacao, String nomeUsuario) {
+	public Long recuperarPontos(String tipoDePontuacao, String nomeUsuario) {
 		return somaTotalDePontosDoUsuario(nomeUsuario, tipoDePontuacao);
 	}
 
@@ -28,12 +28,13 @@ public class Armazenamento {
 		return pontuacoesRegistradas;
 	}
 
-	public void armazenarPonto(String tipoDePontuacao, int pontuacao, String nomeUsuario) {
+	public void armazenarPonto(String tipoDePontuacao, Long pontuacao, String nomeUsuario) {
 		registros.add(construaRegistro(tipoDePontuacao, pontuacao, nomeUsuario));
 	}
 	
-	private Integer somaTotalDePontosDoUsuario(String nomeUsuario, String tipoDePontuacao) {
-		Integer pontuacaoTotal = 0;
+	private Long somaTotalDePontosDoUsuario(String nomeUsuario, String tipoDePontuacao) {
+		@SuppressWarnings("removal")
+		Long pontuacaoTotal = new Long(0);
 		for (RegistroDePontuacao registroPontuacao: registros) {
 			if (registroPontuacao.getNomeUsuario() == nomeUsuario & registroPontuacao.getTipoDePontuacao() == tipoDePontuacao)
 				pontuacaoTotal += registroPontuacao.getPontuacao();
@@ -41,11 +42,8 @@ public class Armazenamento {
 		return pontuacaoTotal;
 	}
 	
-	private RegistroDePontuacao construaRegistro(String tipoDePontuacao, int pontuacao, String nomeUsuario) {
-		RegistroDePontuacao registroPontuacao = new RegistroDePontuacao();
-		registroPontuacao.setTipoDePontuacao(tipoDePontuacao);
-		registroPontuacao.setPontuacao(pontuacao);
-		registroPontuacao.setNomeUsuario(nomeUsuario);
+	private RegistroDePontuacao construaRegistro(String tipoDePontuacao, Long pontuacao, String nomeUsuario) {
+		RegistroDePontuacao registroPontuacao = new RegistroDePontuacao(tipoDePontuacao, pontuacao, nomeUsuario);
 		return registroPontuacao;
 	}
 
