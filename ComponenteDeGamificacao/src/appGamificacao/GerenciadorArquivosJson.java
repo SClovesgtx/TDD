@@ -23,7 +23,12 @@ public class GerenciadorArquivosJson {
 		JSONParser parser = new JSONParser();
 		Object jsonObj = parser.parse(new FileReader(caminhoParaOArquivoJson));
 		JSONArray registrosDePontuacao = (JSONArray) jsonObj;
-	    List<RegistroDePontuacao> registrosDePontuacaoParseados = new ArrayList<RegistroDePontuacao>();
+	    List<RegistroDePontuacao> registrosDePontuacaoParseados = parsearRegistrosDePontuacao(registrosDePontuacao);
+		return registrosDePontuacaoParseados;
+	}
+
+	private List<RegistroDePontuacao> parsearRegistrosDePontuacao(JSONArray registrosDePontuacao) {
+		List<RegistroDePontuacao> registrosDePontuacaoParseados = new ArrayList<RegistroDePontuacao>();
 	    for(int i = 0 ; i < registrosDePontuacao.size() ; i++){
 	    	JSONObject registro = (JSONObject) registrosDePontuacao.get(i);
             String nomeUsuario = (String) registro.get("nomeUsuario");
