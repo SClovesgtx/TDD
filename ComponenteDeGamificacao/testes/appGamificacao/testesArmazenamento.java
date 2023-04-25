@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class testesArmazenamento {
 	
-	private Armazenamento armazenador;
+	private Armazenamento armazenador = new Armazenamento();
 
 	@Before
 	public void inicializaArmazenador() {
@@ -34,7 +34,6 @@ public class testesArmazenamento {
 		registros.add(r4);
 		registros.add(r5);
 		
-		armazenador = new Armazenamento();
 		Armazenamento.setRegistros(registros);
 	}
 

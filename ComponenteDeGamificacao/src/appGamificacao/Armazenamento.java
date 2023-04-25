@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class Armazenamento {
 	private static List<RegistroDePontuacao> registros = new ArrayList<RegistroDePontuacao>();
+	private GerenciadorArquivos gerenciadorArquivoJson = new GerenciadorArquivosJson(
+			"/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json"
+	);
 
 	public Long recuperarPontos(String tipoDePontuacao, String nomeUsuario) {
 		return somaTotalDePontosDoUsuario(nomeUsuario, tipoDePontuacao);

@@ -11,7 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-public class GerenciadorArquivosJson {
+public class GerenciadorArquivosJson implements GerenciadorArquivos {
 	
 	private String caminhoParaOArquivoJson;
 	
@@ -38,5 +38,17 @@ public class GerenciadorArquivosJson {
     		registrosDePontuacaoParseados.add(registroPontuacao);
 	    }
 		return registrosDePontuacaoParseados;
+	}
+
+	@Override
+	public List<RegistroDePontuacao> escreverArquivo() throws FileNotFoundException, IOException, ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RegistroDePontuacao> atualizarArquivo() throws FileNotFoundException, IOException, ParseException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
