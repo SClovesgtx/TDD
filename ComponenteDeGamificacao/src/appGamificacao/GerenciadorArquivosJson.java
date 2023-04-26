@@ -2,6 +2,7 @@ package appGamificacao;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +42,19 @@ public class GerenciadorArquivosJson implements GerenciadorArquivos {
 	}
 
 	@Override
-	public List<RegistroDePontuacao> escreverArquivo() throws FileNotFoundException, IOException, ParseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void atualizarArquivo(List<RegistroDePontuacao> registros) throws FileNotFoundException, IOException, ParseException {
+		JSONArray jsonArray = new JSONArray();
 
-	@Override
-	public List<RegistroDePontuacao> atualizarArquivo() throws FileNotFoundException, IOException, ParseException {
-		// TODO Auto-generated method stub
-		return null;
+        for (RegistroDePontuacao registro : registros) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("nomeUsuario", registro.getNomeUsuario());
+            jsonObject.put("tipoDePontuacao", registro.getTipoDePontuacao());
+            jsonObject.put("pontuacao", registro.getPontuacao());
+            jsonArray.add(jsonObject);
+        }
+
+        FileWriter fileWriter = new FileWriter(caminhoParaOArquivoJson);
+        fileWriter.write(jsonArray.toJSONString());
+        fileWriter.close();
 	}
 }

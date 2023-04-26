@@ -8,6 +8,5 @@ import org.json.simple.parser.ParseException;
 
 public interface GerenciadorArquivos {
 	public List<RegistroDePontuacao> lerArquivo() throws FileNotFoundException, IOException, ParseException;
-	public List<RegistroDePontuacao> escreverArquivo() throws FileNotFoundException, IOException, ParseException;
-	public List<RegistroDePontuacao> atualizarArquivo() throws FileNotFoundException, IOException, ParseException;
+	public void atualizarArquivo(List<RegistroDePontuacao> registros) throws FileNotFoundException, IOException, ParseException;
 }

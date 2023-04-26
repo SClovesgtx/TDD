@@ -8,15 +8,17 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class testesArmazenamento {
 	
-	private Armazenamento armazenador = new Armazenamento();
+	private Armazenamento armazenador = new ArnazenadorDePontuacoes();
 
 	@Before
 	public void inicializaArmazenador() {
@@ -34,7 +36,7 @@ public class testesArmazenamento {
 		registros.add(r4);
 		registros.add(r5);
 		
-		Armazenamento.setRegistros(registros);
+		ArnazenadorDePontuacoes.setRegistros(registros);
 	}
 
 	@SuppressWarnings("removal")
@@ -46,22 +48,39 @@ public class testesArmazenamento {
 	
 	@Test
 	public void metodoUsuariosComPontuacaoRetornaListaUsuarios() {
-		List<String> usuariosComPontuacao = Arrays.asList("Guerra", "Cloves", "Dani", "Alex");
+		Set<String>usuariosComPontuacao = new HashSet<>(Arrays.asList("Guerra", "Cloves", "Dani", "Alex"));
 		assertEquals(usuariosComPontuacao, armazenador.usuariosComPontuacao());
 	}
 	
 	@Test
 	public void metodoTiposPontuacoesRegistradasRetornaListaDeTiposDePontuacaoRegistradas() {
-		List<String> pontuacoesRegistradas = Arrays.asList("estrela", "moeda", "curtida");
+		Set<String> pontuacoesRegistradas = new HashSet<>(Arrays.asList("estrela", "moeda", "curtida"));
 		assertEquals(pontuacoesRegistradas, armazenador.tiposPontuacoesRegistradas());
 	}
 	
 	@Test
-	public void conteudoEstaSendoRegistradoEmArquivoJSON() throws FileNotFoundException, IOException, ParseException {
+	public void conteudoRegistradoEmArquivoJSONEstaNaClasseArmazenamento() throws FileNotFoundException, IOException, ParseException {
 		String caminhoParaOArquivoJson = "/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json";
 		GerenciadorArquivosJson gerenciadorDeArquivosJson = new GerenciadorArquivosJson(caminhoParaOArquivoJson);
 		List<RegistroDePontuacao> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
-		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = Armazenamento.getRegistros();
+		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
+		assertEquals(pontuacoesRegistradasNaClasse.size(), pontuacoesRegistradasNoArquivo.size());
+		for(Integer i=0; i < pontuacoesRegistradasNaClasse.size(); i++) {
+			RegistroDePontuacao r1 = pontuacoesRegistradasNaClasse.get(i);
+			RegistroDePontuacao r2 = pontuacoesRegistradasNoArquivo.get(i);
+			assertEquals(r1.getNomeUsuario(), r2.getNomeUsuario());
+			assertEquals(r1.getPontuacao(), r2.getPontuacao());
+			assertEquals(r1.getTipoDePontuacao(), r2.getTipoDePontuacao());
+		}
+	}
+	
+	@Test
+	public void aoAdicionarNovasPontuacoesNaClasseArmazenamentoOArquivoSeraAtualizado() throws FileNotFoundException, IOException, ParseException {
+		String caminhoParaOArquivoJson = "/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json";
+		armazenador.armazenarPonto("moeda", (long) 590, "Milene");
+		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
+		GerenciadorArquivosJson gerenciadorDeArquivosJson = new GerenciadorArquivosJson(caminhoParaOArquivoJson);
+		List<RegistroDePontuacao> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
 		assertEquals(pontuacoesRegistradasNaClasse.size(), pontuacoesRegistradasNoArquivo.size());
 		for(Integer i=0; i < pontuacoesRegistradasNaClasse.size(); i++) {
 			RegistroDePontuacao r1 = pontuacoesRegistradasNaClasse.get(i);
