@@ -20,32 +20,32 @@ public class GerenciadorArquivosJson implements GerenciadorArquivos {
 		this.caminhoParaOArquivoJson = caminhoParaOArquivoJson;
 	}
 	
-	public List<RegistroDePontuacao> lerArquivo() throws FileNotFoundException, IOException, ParseException {
+	public List<PontuacaoUsuario> lerArquivo() throws FileNotFoundException, IOException, ParseException {
 		JSONParser parser = new JSONParser();
 		Object jsonObj = parser.parse(new FileReader(caminhoParaOArquivoJson));
 		JSONArray registrosDePontuacao = (JSONArray) jsonObj;
-	    List<RegistroDePontuacao> registrosDePontuacaoParseados = parsearRegistrosDePontuacao(registrosDePontuacao);
+	    List<PontuacaoUsuario> registrosDePontuacaoParseados = parsearRegistrosDePontuacao(registrosDePontuacao);
 		return registrosDePontuacaoParseados;
 	}
 
-	private List<RegistroDePontuacao> parsearRegistrosDePontuacao(JSONArray registrosDePontuacao) {
-		List<RegistroDePontuacao> registrosDePontuacaoParseados = new ArrayList<RegistroDePontuacao>();
+	private List<PontuacaoUsuario> parsearRegistrosDePontuacao(JSONArray registrosDePontuacao) {
+		List<PontuacaoUsuario> registrosDePontuacaoParseados = new ArrayList<PontuacaoUsuario>();
 	    for(int i = 0 ; i < registrosDePontuacao.size() ; i++){
 	    	JSONObject registro = (JSONObject) registrosDePontuacao.get(i);
             String nomeUsuario = (String) registro.get("nomeUsuario");
             String tipoDePontuacao = (String) registro.get("tipoDePontuacao");
             Long pontuacao = (Long) registro.get("pontuacao");
-            RegistroDePontuacao registroPontuacao = new RegistroDePontuacao(tipoDePontuacao, pontuacao, nomeUsuario);
+            PontuacaoUsuario registroPontuacao = new PontuacaoUsuario(tipoDePontuacao, pontuacao, nomeUsuario);
     		registrosDePontuacaoParseados.add(registroPontuacao);
 	    }
 		return registrosDePontuacaoParseados;
 	}
 
 	@Override
-	public void atualizarArquivo(List<RegistroDePontuacao> registros) throws FileNotFoundException, IOException, ParseException {
+	public void atualizarArquivo(List<PontuacaoUsuario> registros) throws FileNotFoundException, IOException, ParseException {
 		JSONArray jsonArray = new JSONArray();
 
-        for (RegistroDePontuacao registro : registros) {
+        for (PontuacaoUsuario registro : registros) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nomeUsuario", registro.getNomeUsuario());
             jsonObject.put("tipoDePontuacao", registro.getTipoDePontuacao());

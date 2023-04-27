@@ -23,13 +23,13 @@ public class testesArmazenamento {
 	@Before
 	public void inicializaArmazenador() {
 		
-		RegistroDePontuacao r1 = new RegistroDePontuacao("estrela", (long) 5, "Guerra");
-		RegistroDePontuacao r2 = new RegistroDePontuacao("moeda", (long) 15, "Guerra");
-		RegistroDePontuacao r3 = new RegistroDePontuacao("estrela", (long) 10, "Cloves");
-		RegistroDePontuacao r4 = new RegistroDePontuacao("moeda", (long) 40, "Dani");
-		RegistroDePontuacao r5 = new RegistroDePontuacao("curtida", (long) 7, "Alex");
+		PontuacaoUsuario r1 = new PontuacaoUsuario("estrela", (long) 5, "Guerra");
+		PontuacaoUsuario r2 = new PontuacaoUsuario("moeda", (long) 15, "Guerra");
+		PontuacaoUsuario r3 = new PontuacaoUsuario("estrela", (long) 10, "Cloves");
+		PontuacaoUsuario r4 = new PontuacaoUsuario("moeda", (long) 40, "Dani");
+		PontuacaoUsuario r5 = new PontuacaoUsuario("curtida", (long) 7, "Alex");
 		
-		List<RegistroDePontuacao> registros = new ArrayList<RegistroDePontuacao>();
+		List<PontuacaoUsuario> registros = new ArrayList<PontuacaoUsuario>();
 		registros.add(r1);
 		registros.add(r2);
 		registros.add(r3);
@@ -62,12 +62,12 @@ public class testesArmazenamento {
 	public void conteudoRegistradoEmArquivoJSONEstaNaClasseArmazenamento() throws FileNotFoundException, IOException, ParseException {
 		String caminhoParaOArquivoJson = "/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json";
 		GerenciadorArquivosJson gerenciadorDeArquivosJson = new GerenciadorArquivosJson(caminhoParaOArquivoJson);
-		List<RegistroDePontuacao> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
-		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
+		List<PontuacaoUsuario> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
+		List<PontuacaoUsuario> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
 		assertEquals(pontuacoesRegistradasNaClasse.size(), pontuacoesRegistradasNoArquivo.size());
 		for(Integer i=0; i < pontuacoesRegistradasNaClasse.size(); i++) {
-			RegistroDePontuacao r1 = pontuacoesRegistradasNaClasse.get(i);
-			RegistroDePontuacao r2 = pontuacoesRegistradasNoArquivo.get(i);
+			PontuacaoUsuario r1 = pontuacoesRegistradasNaClasse.get(i);
+			PontuacaoUsuario r2 = pontuacoesRegistradasNoArquivo.get(i);
 			assertEquals(r1.getNomeUsuario(), r2.getNomeUsuario());
 			assertEquals(r1.getPontuacao(), r2.getPontuacao());
 			assertEquals(r1.getTipoDePontuacao(), r2.getTipoDePontuacao());
@@ -78,13 +78,13 @@ public class testesArmazenamento {
 	public void aoAdicionarNovasPontuacoesNaClasseArmazenamentoOArquivoSeraAtualizado() throws FileNotFoundException, IOException, ParseException {
 		String caminhoParaOArquivoJson = "/home/cloves-paiva/Documentos/personal-projects/TDD/ComponenteDeGamificacao/src/appGamificacao/dadosDePontuacaoUsuario.json";
 		armazenador.armazenarPonto("moeda", (long) 590, "Milene");
-		List<RegistroDePontuacao> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
+		List<PontuacaoUsuario> pontuacoesRegistradasNaClasse = ArnazenadorDePontuacoes.getRegistros();
 		GerenciadorArquivosJson gerenciadorDeArquivosJson = new GerenciadorArquivosJson(caminhoParaOArquivoJson);
-		List<RegistroDePontuacao> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
+		List<PontuacaoUsuario> pontuacoesRegistradasNoArquivo = gerenciadorDeArquivosJson.lerArquivo();
 		assertEquals(pontuacoesRegistradasNaClasse.size(), pontuacoesRegistradasNoArquivo.size());
 		for(Integer i=0; i < pontuacoesRegistradasNaClasse.size(); i++) {
-			RegistroDePontuacao r1 = pontuacoesRegistradasNaClasse.get(i);
-			RegistroDePontuacao r2 = pontuacoesRegistradasNoArquivo.get(i);
+			PontuacaoUsuario r1 = pontuacoesRegistradasNaClasse.get(i);
+			PontuacaoUsuario r2 = pontuacoesRegistradasNoArquivo.get(i);
 			assertEquals(r1.getNomeUsuario(), r2.getNomeUsuario());
 			assertEquals(r1.getPontuacao(), r2.getPontuacao());
 			assertEquals(r1.getTipoDePontuacao(), r2.getTipoDePontuacao());

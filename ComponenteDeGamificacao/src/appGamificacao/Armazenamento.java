@@ -2,6 +2,7 @@ package appGamificacao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.json.simple.parser.ParseException;
@@ -16,5 +17,7 @@ public interface Armazenamento {
 	Set<String> usuariosComPontuacao();
 
 	Set<String> tiposPontuacoesRegistradas();
+
+	void setRegistros(List<PontuacaoUsuario> registrosVazio);
 
 }

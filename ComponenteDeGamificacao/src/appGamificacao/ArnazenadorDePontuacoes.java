@@ -15,12 +15,12 @@ public class ArnazenadorDePontuacoes implements Armazenamento {
 
     private static final GerenciadorArquivos gerenciadorArquivoJson = new GerenciadorArquivosJson(JSON_FILE_PATH);
 
-    private final static List<RegistroDePontuacao> registros = new ArrayList<>();
+    private final static List<PontuacaoUsuario> registros = new ArrayList<PontuacaoUsuario>();
 
     @Override
 	public void armazenarPonto(String tipoDePontuacao, Long pontuacao, String nomeUsuario)
             throws FileNotFoundException, IOException, ParseException {
-        registros.add(new RegistroDePontuacao(tipoDePontuacao, pontuacao, nomeUsuario));
+        registros.add(new PontuacaoUsuario(tipoDePontuacao, pontuacao, nomeUsuario));
         gerenciadorArquivoJson.atualizarArquivo(registros);
     }
 
@@ -28,7 +28,7 @@ public class ArnazenadorDePontuacoes implements Armazenamento {
 	public Long recuperarPontos(String tipoDePontuacao, String nomeUsuario) {
         return registros.stream()
                 .filter(r -> r.getTipoDePontuacao().equals(tipoDePontuacao) && r.getNomeUsuario().equals(nomeUsuario))
-                .mapToLong(RegistroDePontuacao::getPontuacao)
+                .mapToLong(PontuacaoUsuario::getPontuacao)
                 .sum();
     }
 
@@ -46,7 +46,7 @@ public class ArnazenadorDePontuacoes implements Armazenamento {
         return tiposPontuacoes;
     }
 
-    public static void setRegistros(List<RegistroDePontuacao> registros) {
+    public void setRegistros(List<PontuacaoUsuario> registros) {
         ArnazenadorDePontuacoes.registros.clear();
         ArnazenadorDePontuacoes.registros.addAll(registros);
         try {
@@ -56,7 +56,7 @@ public class ArnazenadorDePontuacoes implements Armazenamento {
         }
     }
 
-    public static List<RegistroDePontuacao> getRegistros() {
+    public static List<PontuacaoUsuario> getRegistros() {
         return new ArrayList<>(registros);
     }
 

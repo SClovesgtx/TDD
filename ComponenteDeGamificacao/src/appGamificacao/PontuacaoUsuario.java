@@ -1,12 +1,12 @@
 package appGamificacao;
 
-public class RegistroDePontuacao {
+public class PontuacaoUsuario {
 	
 	private String nomeUsuario;
 	private String tipoDePontuacao;
 	private Long pontuacao;
 	
-	public RegistroDePontuacao(String tipoDePontuacao, Long pontuacao, String nomeUsuario) {
+	public PontuacaoUsuario(String tipoDePontuacao, Long pontuacao, String nomeUsuario) {
 		this.tipoDePontuacao = tipoDePontuacao;
 		this.pontuacao = pontuacao;
 		this.nomeUsuario = nomeUsuario;

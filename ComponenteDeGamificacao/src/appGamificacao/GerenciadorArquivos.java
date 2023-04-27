@@ -7,6 +7,6 @@ import java.util.List;
 import org.json.simple.parser.ParseException;
 
 public interface GerenciadorArquivos {
-	public List<RegistroDePontuacao> lerArquivo() throws FileNotFoundException, IOException, ParseException;
-	public void atualizarArquivo(List<RegistroDePontuacao> registros) throws FileNotFoundException, IOException, ParseException;
+	public List<PontuacaoUsuario> lerArquivo() throws FileNotFoundException, IOException, ParseException;
+	public void atualizarArquivo(List<PontuacaoUsuario> registros) throws FileNotFoundException, IOException, ParseException;
 }
