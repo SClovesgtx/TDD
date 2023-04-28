@@ -85,7 +85,7 @@ public class testesPlacar {
     
     @Test
     public void testRankingTipoDePontuacaoNaoRegistrada() throws Exception {
-    	List<PontuacaoUsuario> ranking =  placar.ranking("energia");
-        Assert.assertTrue(ranking.isEmpty());
+    	Map<String, Long> ranking =  placar.ranking("mandala");
+        Assert.assertEquals(0, ranking.size());
     }
 }
