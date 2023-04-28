@@ -46,7 +46,7 @@ public class ArnazenadorDePontuacoes implements Armazenamento {
         return tiposPontuacoes;
     }
 
-    public void setRegistros(List<PontuacaoUsuario> registros) {
+    public static void setRegistros(List<PontuacaoUsuario> registros) {
         ArnazenadorDePontuacoes.registros.clear();
         ArnazenadorDePontuacoes.registros.addAll(registros);
         try {

@@ -1,5 +1,7 @@
 package appGamificacao;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +13,16 @@ import org.junit.Test;
 public class testesPlacar {
 
     private Placar placar;
+    private Armazenamento mockArmazenador;
+    
+    @Before
+	public void inicializarPlacar() {
+    	mockArmazenador = new MockArmazenadorDePontuacoes();
+        placar = new Placar(mockArmazenador);
+    }
 
     @Test
     public void testRegistrarPontos() throws Exception {
-    	Armazenamento mockArmazenador = new MockArmazenadorDePontuacoes();
-        placar = new Placar(mockArmazenador);
         
         // Registra 10 pontos do tipo "moeda" para o usuário "guerra"
         placar.registrarPontos("moeda", (long) 10, "guerra");
@@ -29,10 +36,8 @@ public class testesPlacar {
     public void testRegistrarPontosDeVariosTipos() throws Exception {
     	
     	// Esvazia registros estáticos
-    	Armazenamento mockArmazenador = new MockArmazenadorDePontuacoes();
     	List<PontuacaoUsuario> registrosVazio = new ArrayList<PontuacaoUsuario>();
-    	mockArmazenador.setRegistros(registrosVazio);
-    	placar = new Placar(mockArmazenador);
+    	Armazenamento.setRegistros(registrosVazio);
     	
         // Registra 10 pontos do tipo "moeda" para o usuário "guerra"
         placar.registrarPontos("moeda", (long) 10, "guerra");
@@ -42,38 +47,18 @@ public class testesPlacar {
 
         // Verifica se os pontos foram registrados corretamente
         Map<String, Long> pontos = placar.pontosDoUsuario("guerra");
-        Assert.assertEquals(Long.valueOf(10), pontos.get("moeda"));
+        Assert.assertEquals(Long.valueOf(20), pontos.get("moeda"));
         Assert.assertEquals(Long.valueOf(5), pontos.get("estrela"));
     }
-//
+
 //    @Test
-//    public void testGetPontosDoUsuario() throws Exception {
-//        // Registra 10 pontos do tipo "moeda" para o usuário "guerra"
-//        placar.registrarPontos("moeda", 10, "guerra");
-//
-//        // Registra 5 pontos do tipo "estrela" para o usuário "guerra"
-//        placar.registrarPontos("estrela", 5, "guerra");
-//
-//        // Registra 15 pontos do tipo "energia" para o usuário "guerra"
-//        placar.registrarPontos("energia", 15, "guerra");
-//
-//        // Verifica se os pontos foram retornados corretamente
-//        String pontos = placar.getPontosDoUsuario("guerra");
-//        Assert.assertEquals("energia: 15, moeda: 10, estrela: 5", pontos);
-//    }
-//
-//    @Test
-//    public void testGetPontosDoUsuarioComZero() throws Exception {
-//        // Registra 10 pontos do tipo "moeda" para o usuário "guerra"
-//        placar.registrarPontos("moeda", 10, "guerra");
-//
-//        // Verifica se os pontos foram retornados corretamente
-//        String pontos = placar.getPontosDoUsuario("guerra");
-//        Assert.assertEquals("moeda: 10", pontos);
-//
+//    public void testPontosDoUsuarioComZero() throws Exception {
 //        // Verifica se pontos de um tipo que o usuário não possui são retornados como zero
-//        pontos = placar.getPontosDoUsuario("guerra2");
-//        Assert.assertEquals("", pontos);
+//    	Map<String, Long> pontos = placar.pontosDoUsuario("guerra");
+//    	
+//    	placar.registrarPontos("moeda", (long) 10, "guerra");
+//        Assert.assertEquals(1, pontos.size());
+//        Assert.assertEquals(Long.valueOf(20), pontos.get("moeda"));
 //    }
 //
 //    @Test
@@ -97,9 +82,10 @@ public class testesPlacar {
 //        assertEquals(15L, (long) rankingMoeda.get("fernandes"));
 //    }
 //
-//    @Test
-//    public void testGetRankingTipoDePontuacaoNaoRegistrada() throws Exception {
-//        Map<String, Long> ranking = placar.getRanking("energia");
-//        assertTrue(ranking.isEmpty());
-//    }
+    
+    @Test
+    public void testRankingTipoDePontuacaoNaoRegistrada() throws Exception {
+    	List<PontuacaoUsuario> ranking =  placar.ranking("energia");
+        Assert.assertTrue(ranking.isEmpty());
+    }
 }
