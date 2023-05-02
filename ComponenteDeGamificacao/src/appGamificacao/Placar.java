@@ -35,22 +35,22 @@ public class Placar {
         }
         return pontos;
     }
-
-    public Map<String, Long> ranking(String tipoDePontuacao) {
-        Set<String> usuariosComPontuacao = armazenamento.usuariosComPontuacao();
-        Map<String, Long> ranking = new HashMap<String, Long>();
-        for(String usuario: usuariosComPontuacao) {
-        	Long somaPontuacao = armazenamento.recuperarPontos(tipoDePontuacao, usuario);
-        	if (somaPontuacao > 0)
-        		ranking.put(usuario, somaPontuacao);
+    
+    public List<Map.Entry<String, Long>> ranking(String tipoDePontuacao) {
+        Set<String> usuarios = armazenamento.usuariosComPontuacao();
+        Map<String, Long> pontosPorUsuario = new HashMap<>();
+        for (String usuario : usuarios) {
+            Long pontos = armazenamento.recuperarPontos(tipoDePontuacao, usuario);
+            if (pontos > 0) {
+                pontosPorUsuario.put(usuario, pontos);
+            }
         }
-        
-        Map<String, Long> rankingOrdenado = ranking.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-        return rankingOrdenado;
+        return pontosPorUsuario.entrySet()
+            .stream()
+            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+            .collect(Collectors.toList());
     }
+
 
 
 }

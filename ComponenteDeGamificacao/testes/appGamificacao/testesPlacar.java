@@ -50,42 +50,60 @@ public class testesPlacar {
         Assert.assertEquals(Long.valueOf(20), pontos.get("moeda"));
         Assert.assertEquals(Long.valueOf(5), pontos.get("estrela"));
     }
-
-//    @Test
-//    public void testPontosDoUsuarioComZero() throws Exception {
-//        // Verifica se pontos de um tipo que o usuário não possui são retornados como zero
-//    	Map<String, Long> pontos = placar.pontosDoUsuario("guerra");
-//    	
-//    	placar.registrarPontos("moeda", (long) 10, "guerra");
-//        Assert.assertEquals(1, pontos.size());
-//        Assert.assertEquals(Long.valueOf(20), pontos.get("moeda"));
-//    }
-//
-//    @Test
-//    public void testGetRanking() throws Exception {
-//        placar.registrarPonto("estrela", 10, "guerra");
-//        placar.registrarPonto("moeda", 20, "guerra");
-//        placar.registrarPonto("estrela", 5, "fernandes");
-//        placar.registrarPonto("estrela", 17, "rodrigo");
-//        placar.registrarPonto("moeda", 15, "fernandes");
-//        placar.registrarPonto("estrela", 8, "rodrigo");
-//
-//        Map<String, Long> rankingEstrela = placar.getRanking("estrela");
-//        assertEquals(3, rankingEstrela.size());
-//        assertEquals(17L, (long) rankingEstrela.get("rodrigo"));
-//        assertEquals(10L, (long) rankingEstrela.get("guerra"));
-//        assertEquals(5L, (long) rankingEstrela.get("fernandes"));
-//
-//        Map<String, Long> rankingMoeda = placar.getRanking("moeda");
-//        assertEquals(2, rankingMoeda.size());
-//        assertEquals(20L, (long) rankingMoeda.get("guerra"));
-//        assertEquals(15L, (long) rankingMoeda.get("fernandes"));
-//    }
-//
     
     @Test
-    public void testRankingTipoDePontuacaoNaoRegistrada() throws Exception {
-    	Map<String, Long> ranking =  placar.ranking("mandala");
-        Assert.assertEquals(0, ranking.size());
+    public void testPontosDoUsuario() throws Exception {
+        
+        // Registra 10 pontos do tipo "moeda" para o usuário "joão"
+        placar.registrarPontos("moeda", (long) 10, "joão");
+        
+        // Registra 5 pontos do tipo "estrela" para o usuário "joão"
+        placar.registrarPontos("estrela", (long) 5, "joão");
+
+        // Verifica se os pontos foram registrados corretamente
+        Map<String, Long> pontosJoao = placar.pontosDoUsuario("joão");
+        Assert.assertEquals(Long.valueOf(10), pontosJoao.get("moeda"));
+        Assert.assertEquals(Long.valueOf(5), pontosJoao.get("estrela"));
+        
+        // Registra 15 pontos do tipo "moeda" para o usuário "maria"
+        placar.registrarPontos("moeda", (long) 15, "maria");
+        
+        // Verifica se os pontos foram registrados corretamente
+        Map<String, Long> pontosMaria = placar.pontosDoUsuario("maria");
+        Assert.assertEquals(Long.valueOf(15), pontosMaria.get("moeda"));
+        Assert.assertNull(pontosMaria.get("estrela"));
     }
+
+    
+    @Test
+    public void testRanking() throws Exception {
+        // Registra 10 pontos do tipo "moeda" para o usuário "alexandre"
+        placar.registrarPontos("moeda", (long) 10, "alexandre");
+
+        // Registra 5 pontos do tipo "estrela" para o usuário "alexandre"
+        placar.registrarPontos("estrela", (long) 5, "alexandre");
+
+        // Registra 19 pontos do tipo "estrela" para o usuário "fernandes"
+        placar.registrarPontos("estrela", (long) 19, "fernandes");
+
+        // Registra 25 pontos do tipo "estrela" para o usuário "rodrigo"
+        placar.registrarPontos("estrela", (long) 25, "rodrigo");
+
+        // Verifica o ranking de usuários com mais pontos do tipo "estrela"
+        List<Map.Entry<String, Long>> ranking = placar.ranking("estrela");
+        assertEquals(3, ranking.size());
+
+        // Primeiro lugar: "rodrigo" com 25 pontos
+        assertEquals("rodrigo", ranking.get(0).getKey());
+        assertEquals(Long.valueOf(25), ranking.get(0).getValue());
+
+        // Segundo lugar: "fernandes" com 19 pontos
+        assertEquals("fernandes", ranking.get(1).getKey());
+        assertEquals(Long.valueOf(19), ranking.get(1).getValue());
+
+        // Terceiro lugar: "alexandre" com 5 pontos
+        assertEquals("alexandre", ranking.get(2).getKey());
+        assertEquals(Long.valueOf(5), ranking.get(2).getValue());
+    }
+
 }
